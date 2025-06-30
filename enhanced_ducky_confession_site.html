@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Touch Me Ribbon - Enhanced</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #4fd1c5;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Rubber_duck_small.png/48px-Rubber_duck_small.png');
+      background-repeat: repeat;
+      background-size: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      width: 500px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      animation: popIn 0.6s ease;
+    }
+    .ribbon {
+      background: #ff69b4;
+      color: white;
+      padding: 25px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 24px;
+      transition: background 0.3s ease;
+      animation: bounce 0.5s;
+    }
+    .message {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 25px;
+      text-align: center;
+      font-size: 20px;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.6s ease-in-out, opacity 0.6s ease-in-out;
+    }
+    .container.show .message {
+      max-height: 300px;
+      opacity: 1;
+      animation: fadeInUp 0.6s ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" onclick="advanceMessage()">
+    <div class="ribbon" id="ribbon">👉 Touch me baby</div>
+    <div class="message" id="message">💖 I love you Munu. I need a bj please.</div>
+  </div>
+
+  <script>
+    let step = 0;
+    const ribbon = document.getElementById("ribbon");
+    const message = document.getElementById("message");
+    const container = document.querySelector(".container");
+
+    const ribbonTexts = [
+      "👉 Touch me baby",
+      "👉 Touch me harder",
+      "👉 Touch me harderrr",
+      "👉 Yes... like that",
+      "👉 Don't stop 😳"
+    ];
+
+    const vibrations = [100, 200, 300, 400, 500];
+
+    function vibrate(duration) {
+      if (navigator.vibrate) {
+        navigator.vibrate(duration);
+      }
+    }
+
+    function animateClick() {
+      ribbon.style.animation = "bounce 0.5s";
+      setTimeout(() => {
+        ribbon.style.animation = "";
+      }, 500);
+    }
+
+    function advanceMessage() {
+      animateClick();
+      vibrate(vibrations[step] || 500);
+      if (step < ribbonTexts.length - 1) {
+        step++;
+        ribbon.textContent = ribbonTexts[step];
+      } else {
+        container.classList.add("show");
+      }
+    }
+  </script>
+
+</body>
+</html>
